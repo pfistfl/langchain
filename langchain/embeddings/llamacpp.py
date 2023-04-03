@@ -102,7 +102,7 @@ class LlamaCppEmbeddings(BaseModel, Embeddings):
         Returns:
             List of embeddings, one for each text.
         """
-        embeddings = [self.client.embed(text) for text in texts]
+        embeddings = [self.client.create_embedding(text)["data"][0]["embedding"] for text in texts]
         return [list(map(float, e)) for e in embeddings]
 
     def embed_query(self, text: str) -> List[float]:
@@ -114,5 +114,6 @@ class LlamaCppEmbeddings(BaseModel, Embeddings):
         Returns:
             Embeddings for the text.
         """
-        embedding = self.client.embed(text)
+        embedding = self.client.create_embedding(text)['data'][0]['embedding']
+
         return list(map(float, embedding))
